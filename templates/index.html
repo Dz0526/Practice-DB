@@ -1,7 +1,29 @@
 {% extends "layouts/default.html" %}
-{% block title %}Welcome to Caveman2{% endblock %}
+{% block title %}Practice DB{% endblock %}
 {% block content %}
-<div id="main">
-  Welcome to <a href="http://8arrow.org/caveman/">Caveman2</a>!
+<h1>Practice DB</h1>
+<div id="add-task">
+	<form action="/add-data" method="post">
+	<label for="task">Do:</label>
+	<input type="text" id="task" name="task" value="{{ task }}">
+	<li class="button">
+		<button type="submit">add</button>
+	</li>
+	</form>
 </div>
+<h1> {{ tasks }} </h1>
+<div id="task-list">
+{% for task in tasks %}
+<h2>
+	{{ task.task }}
+	{{ task.id }}
+</h2>
+<form action="/delete-data" method="post">
+	<input type="hidden" name="id" value="{{ task.id }}">
+	<input type="submit" value="delete">
+</form>
+{% endfor %}
+</div>
+
+
 {% endblock %}

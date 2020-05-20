@@ -24,7 +24,26 @@
 ;; Routing rules
 
 (defroute "/" ()
-  (render #P"index.html"))
+  (render-to-do))
+
+(defroute ("/add-data" :method :POST) (&key |task|)
+  (insert-data |task|)
+  (render-to-do))
+
+(defroute ("/delete-data" :method :POST) (&key |id|)
+   (delete-data |id|)
+   (render-to-do))
+
+;;
+;; Render
+
+(defun render-to-do ()
+  (render #P"index.html" `(:tasks ,(send-data))))
+
+(defun send-data ()
+  (with-connection (db)
+    (retrieve-all
+      (select :* (from :todo)))))
 
 ;;
 ;; Database
